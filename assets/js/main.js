@@ -278,7 +278,7 @@ function getSupportedLanguagesYandex(){
 
         });
 
-            });
+        
 
         }); //End of Then
     }
