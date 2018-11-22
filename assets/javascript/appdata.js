@@ -43,8 +43,8 @@ function showRecalls(category){
 
     var recallIDs=[];
     var recallDetailObjects=[];
-    var baseURL = 'http://healthycanadians.gc.ca/recall-alert-rappel-avis';
-    var baseURLimages = 'http://healthycanadians.gc.ca';
+    var baseURL = 'https://healthycanadians.gc.ca/recall-alert-rappel-avis';
+    var baseURLimages = 'https://healthycanadians.gc.ca';
     var queryURL = baseURL + '/api/recent/english';
     $.ajax({
         url:queryURL,
