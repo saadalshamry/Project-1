@@ -132,7 +132,7 @@ function getSupportedLanguagesYandex(){
       
           console.log(lang[0],lang[1]);
           
-          $("#language").value(lang[0]);
+          $("#language").val(lang[0]);
           $("#language").text(lang[1]);
  
         });
