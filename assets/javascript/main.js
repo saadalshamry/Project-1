@@ -1,4 +1,5 @@
 var translatedText;
+var translate=false;
 
 var $categoryButtons=$('#categoryButtons');
 
@@ -81,8 +82,12 @@ function showRecalls(category){
                 $recallContainer.append($recallID);
 
                 var $recallTitle=$('<p>');
-                translatedText = translateTextYandex (recallDetailObjects[i].title, "en", "ru", "Plain");
-                $recallTitle.html(translatedText);
+                if(translate){
+                    translatedText = translateTextYandex (recallDetailObjects[i].title, "en", "ru", "Plain");
+                    $recallTitle.html(translatedText);
+                }else{
+                    $recallTitle.html(recallDetailObjects[i].title, "en", "ru", "Plain");
+                }
                 $recallTitle.addClass('recallTitle');
                 $recallContainer.append($recallTitle);
             
@@ -102,8 +107,13 @@ function showRecalls(category){
                             $imageContainer.append($image);
 
                             var $imageTitle=$('<p>');
-                            translatedText = translateTextYandex (recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "Plain");
-                            $imageTitle.html(translatedText);
+                            if(translate){
+                                translatedText = translateTextYandex (recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "Plain");
+                                $imageTitle.html(translatedText);
+                            }else{
+                                $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "Plain");
+                            }
+
                             $imageTitle.addClass('imageTitle');
                             $imageContainer.append($imageTitle);
                         
@@ -119,14 +129,22 @@ function showRecalls(category){
                     */
                         var $panelTitle=$('<p>');
                         $panelTitle.addClass('panelTitle');
-                        translatedText = translateTextYandex (recallDetailObjects[i].panels[j].title, "en", "ru", "Plain");
-                        $panelTitle.html(translatedText);
+                        if(translate){
+                            translatedText = translateTextYandex (recallDetailObjects[i].panels[j].title, "en", "ru", "Plain");
+                            $panelTitle.html(translatedText);
+                        }else{
+                            $panelTitle.html(recallDetailObjects[i].panels[j].title, "en", "ru", "Plain");
+                        }
                         $panelContainer.append($panelTitle);
 
                         var $panelText=$('<p>');
                         $panelText.addClass('panelText');
-                        translatedText = translateTextYandex (recallDetailObjects[i].panels[j].text, "en", "ru", "Plain");
-                        $panelText.html(translatedText);
+                        if(translate){
+                            translatedText = translateTextYandex (recallDetailObjects[i].panels[j].text, "en", "ru", "Plain");
+                            $panelText.html(translatedText);
+                        }else{
+                            $panelText.html(recallDetailObjects[i].panels[j].text, "en", "ru", "Plain");
+                        }
                         $panelContainer.append($panelText);
 
                     }
