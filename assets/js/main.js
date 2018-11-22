@@ -126,8 +126,14 @@ function getSupportedLanguagesYandex(){
           length: 2
       */
       var entries = Object.entries(response.langs)
-      
-      //For each array element get the 
+
+    
+    entries.sort(function(arr1, arr2) {
+        return arr1[1].charCodeAt(0) - arr2[1].charCodeAt(0);
+      });
+
+
+            //For each array element get the 
       entries.forEach(function (lang) {
       
           console.log(lang[0],lang[1]);
@@ -136,7 +142,7 @@ function getSupportedLanguagesYandex(){
           option.val(lang[0]);
           option.text(lang[1]);
           $('#language').append(option);
- 
+
         });
 
   }); //End of Then
