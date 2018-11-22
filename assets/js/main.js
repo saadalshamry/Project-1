@@ -1,5 +1,138 @@
 $(document).ready(function () {
 
+    //neils code
+    var translatedText;
+    var translate = false;
+
+    var $categoryButtons = $('#categoryButtons');
+
+
+
+    var userCategorySelection;
+    $(document).on("click", ".categoryButtons", function () {
+        var $element = $(this);
+        userCategorySelection = $element.attr('value');
+        console.log(userCategorySelection);
+        showRecalls(userCategorySelection);
+    });
+
+    function showRecalls(category) {
+        $("#resultsContainer").empty();
+
+        var recallIDs = [];
+        var recallDetailObjects = [];
+        var baseURL = 'https://healthycanadians.gc.ca/recall-alert-rappel-avis';
+        var baseURLimages = 'https://healthycanadians.gc.ca';
+        var queryURL = baseURL + '/api/recent/english';
+        $.ajax({
+            url: queryURL,
+            type: 'GET',
+            Accept: "application/json",
+            dataType: 'json'
+        }).then(function (response) {
+            console.log("the summary object");
+            console.log(response);
+
+            // userCategorySelection can be set to one of: ALL, CPS, FOOD, HEALTH, VEHICLE... note CPS is Consumer Goods
+            for (let i = 0; i < response.results[category].length; i++) {
+                recallIDs[i] = response.results[category][i].recallId;
+                queryURL = baseURL + '/api/' + recallIDs[i];
+                $.ajax({
+                    url: queryURL,
+                    type: 'GET',
+                    Accept: "application/json",
+                    dataType: 'json'
+                }).then(function (detailData) {
+
+                    recallDetailObjects[i] = detailData;
+                    console.log("recall detail object is:");
+                    console.log(detailData);
+
+                    var $recallContainer = $('<div>');
+                    $recallContainer.addClass('recallContainer');
+
+                    var $recallID = $('<p>');
+                    $recallID.html(recallDetailObjects[i].recallId);
+                    $recallID.addClass('recallID');
+                    $recallContainer.append($recallID);
+
+                    var $recallTitle = $('<p>');
+                    if (translate) {
+                        translatedText = translateTextYandex(recallDetailObjects[i].title, "en", "ru", "Plain");
+                        $recallTitle.html(translatedText);
+                    } else {
+                        $recallTitle.html(recallDetailObjects[i].title, "en", "ru", "Plain");
+                    }
+                    $recallTitle.addClass('recallTitle');
+                    $recallContainer.append($recallTitle);
+
+                    for (let j = 0; j < recallDetailObjects[i].panels.length; j++) {
+                        var $panelContainer = $('<div>');
+                        $panelContainer.addClass('panelContainer');
+
+                        if (recallDetailObjects[i].panels[j].panelName === 'images') {
+                            var $imageContainer = $('<div>')
+                            $imageContainer.addClass('imageContainer');
+                            for (let k = 0; k < recallDetailObjects[i].panels[j].data.length; k++) {
+
+                                var fullUrl = baseURLimages + recallDetailObjects[i].panels[j].data[k].fullUrl;
+                                var $image = $('<img>');
+                                $image.addClass('image');
+                                $image.attr('src', fullUrl);
+                                $imageContainer.append($image);
+
+                                var $imageTitle = $('<p>');
+                                if (translate) {
+                                    translatedText = translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "Plain");
+                                    $imageTitle.html(translatedText);
+                                } else {
+                                    $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "Plain");
+                                }
+
+                                $imageTitle.addClass('imageTitle');
+                                $imageContainer.append($imageTitle);
+
+                            }
+                            $panelContainer.append($imageContainer);
+
+                        } else {
+                            // don't need to show panelName to user
+                            /*    var $panelName=$('<p>');
+                                $panelName.addClass('panelName');
+                                $panelName.html(recallDetailObjects[i].panels[j].panelName);
+                                $panelContainer.append($panelName);
+                            */
+                            var $panelTitle = $('<p>');
+                            $panelTitle.addClass('panelTitle');
+                            if (translate) {
+                                translatedText = translateTextYandex(recallDetailObjects[i].panels[j].title, "en", "ru", "Plain");
+                                $panelTitle.html(translatedText);
+                            } else {
+                                $panelTitle.html(recallDetailObjects[i].panels[j].title, "en", "ru", "Plain");
+                            }
+                            $panelContainer.append($panelTitle);
+
+                            var $panelText = $('<p>');
+                            $panelText.addClass('panelText');
+                            if (translate) {
+                                translatedText = translateTextYandex(recallDetailObjects[i].panels[j].text, "en", "ru", "Plain");
+                                $panelText.html(translatedText);
+                            } else {
+                                $panelText.html(recallDetailObjects[i].panels[j].text, "en", "ru", "Plain");
+                            }
+                            $panelContainer.append($panelText);
+
+                        }
+                        $recallContainer.append($panelContainer);
+                    }
+
+                    $('#resultsContainer').append($recallContainer);
+
+                });
+            }
+        });
+
+    }
 
     //Source: http://healthycanadians.gc.ca/connect-connectez/data-donnees/recall-alert-rappel-avis-eng.php?wbdisable=true
     //var queryURLRecentRecalsSummary = "http://healthycanadians.gc.ca/recall-alert-rappel-avis/api/recent/en"
@@ -145,49 +278,51 @@ function getSupportedLanguagesYandex(){
 
         });
 
-  }); //End of Then
-}
+            });
 
-// This function will use the Yandex (free) API to translate the text passed to it
-// *********************************************
-// !! This function returns a string.  Ensure to assign the result of the function call to a variable !! 
-// *********************************************
-function translateTextYandex (textToTranslate, languageFrom, languageTo, format){
+        }); //End of Then
+    }
 
-  //The Yandex queryURL string
-  var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91" ;
-  
-  //Add the key "text" and pass the value as the text to translate
-  queryURL = queryURL + "&text=" + textToTranslate;
+    // This function will use the Yandex (free) API to translate the text passed to it
+    // *********************************************
+    // !! This function returns a string.  Ensure to assign the result of the function call to a variable !! 
+    // *********************************************
+    function translateTextYandex(textToTranslate, languageFrom, languageTo, format) {
 
-  //Add the key "lang" and pass the value as the language to translate from, a dash, and the 
-  //language to translate to i.e. English to Russion would be lang value of en-ru.  
-  //The languageFrom will always be 'en' for this project.
-  queryURL = queryURL + "&lang=" + languageFrom + "-" + languageTo;
-  
-  //Add the "format" key and pass the value as either HTML or Plain depending on the text
-  //formatting required. 
-  queryURL = queryURL + "&format=" + format;
+        //The Yandex queryURL string
+        var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91";
 
-      $.ajax({
-          url: queryURL,
-          method: "GET"
-      }).then(function (response) {
+        //Add the key "text" and pass the value as the text to translate
+        queryURL = queryURL + "&text=" + textToTranslate;
 
-          return response;
-      
-      }); 
+        //Add the key "lang" and pass the value as the language to translate from, a dash, and the 
+        //language to translate to i.e. English to Russion would be lang value of en-ru.  
+        //The languageFrom will always be 'en' for this project.
+        queryURL = queryURL + "&lang=" + languageFrom + "-" + languageTo;
+
+        //Add the "format" key and pass the value as either HTML or Plain depending on the text
+        //formatting required. 
+        queryURL = queryURL + "&format=" + format;
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function (response) {
+
+            return response;
+
+        });
 
     }
 
-//Usage examples
-//translateTextYandex ("Hello world", "en", "ru", "plain");
+    //Usage examples
+    //translateTextYandex ("Hello world", "en", "ru", "plain");
 
 
-//Start local storage section
-//localStorage.setItem("name", name);
-//localStorage.getItem("name", name);
+    //Start local storage section
+    //localStorage.setItem("name", name);
+    //localStorage.getItem("name", name);
 
-getSupportedLanguagesYandex();
+    getSupportedLanguagesYandex();
 
 });
