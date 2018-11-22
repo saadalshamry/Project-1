@@ -180,4 +180,6 @@ function translateTextYandex (textToTranslate, languageFrom, languageTo, format)
 //localStorage.setItem("name", name);
 //localStorage.getItem("name", name);
 
+getSupportedLanguagesYandex();
+
 });
