@@ -59,6 +59,7 @@ $(document).ready(function () {
                     var $recallTitle = $('<p>');
                     if (translate) {
                         translatedText = translateTextYandex(recallDetailObjects[i].title, "en", "ru", "plain");
+                        
                         $recallTitle.html(translatedText);
                     } else {
                         $recallTitle.html(recallDetailObjects[i].title, "en", "ru", "plain");
@@ -291,24 +292,32 @@ function getSupportedLanguagesYandex(){
     // *********************************************
     function translateTextYandex(textToTranslate, languageFrom, languageTo, format) {
 
+        var textToTranslateEncoded = encodeURI(textToTranslate);
+
         //The Yandex queryURL string
-        var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91";
+        var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/translate";
 
         //Add the key "text" and pass the value as the text to translate
-        queryURL = queryURL + "&text=" + textToTranslate;
+        //queryURL = queryURL + "&text=" + textToTranslate;
 
         //Add the key "lang" and pass the value as the language to translate from, a dash, and the 
         //language to translate to i.e. English to Russion would be lang value of en-ru.  
         //The languageFrom will always be 'en' for this project.
-        queryURL = queryURL + "&lang=" + languageFrom + "-" + languageTo;
+       // queryURL = queryURL + "&lang=" + languageFrom + "-" + languageTo;
 
         //Add the "format" key and pass the value as either HTML or Plain depending on the text
         //formatting required. 
-        queryURL = queryURL + "&format=" + format;
+        //queryURL = queryURL + "&format=" + format;
 
         $.ajax({
             url: queryURL,
-            method: "GET"
+            method: "POST",
+            data: {
+                key: "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91",
+                lang: languageFrom + "-" + languageTo,
+                format: format,
+                text: textToTranslate.substr(0, 5000)
+            }
         }).then(function (response) {
 
             return response;
