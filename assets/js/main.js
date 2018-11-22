@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     //neils code
     var translatedText;
-    var translate = false;
+    var translate = true;
 
     var $categoryButtons = $('#categoryButtons');
 
@@ -278,7 +278,6 @@ function getSupportedLanguagesYandex(){
 
         });
 
-        
 
         }); //End of Then
     }
