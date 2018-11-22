@@ -135,10 +135,9 @@ function getSupportedLanguagesYandex(){
           $("#language").value(lang[0]);
           $("#language").text(lang[1]);
  
-    });
+        });
 
   }); //End of Then
-
 }
 
 // This function will use the Yandex (free) API to translate the text passed to it
@@ -167,9 +166,7 @@ function translateTextYandex (textToTranslate, languageFrom, languageTo, format)
           return response;
       
       }); 
-}
 
+    }
 //Usage examples
 //translateTextYandex ("Hello world", "en", "ru", "plain");
-
-});
