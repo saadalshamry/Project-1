@@ -26,19 +26,24 @@
         <div class="container bg-white p-5">
             <label for="language">Choose a language</label>
             <select name="" id="language" class="form-control">
-           
+
             </select>
             <br>
             <label for="catagory">Choose a catagory</label>
             <div>
-                <div class="btn btn-outline-danger">Catagory</div>
-                <div class="btn btn-outline-danger">Catagory</div>
-                <div class="btn btn-outline-danger">Catagory</div>
-                <div class="btn btn-outline-danger">Catagory</div>
-                <div class="btn btn-outline-danger">Catagory</div>
+                <div class="btn btn-outline-danger categoryButtons" value="ALL">ALL</div>
+                <div class="btn btn-outline-danger categoryButtons" value="CPS">Consumer
+                    Products</div>
+                <div class="btn btn-outline-danger categoryButtons"
+                    value="FOOD">Food</div>
+                <div class="btn btn-outline-danger categoryButtons"
+                    value="HEALTH">Health</div>
+                <div class="btn btn-outline-danger categoryButtons"
+                    value="VEHICLE">Vehicle</div>
             </div>
-            <hr>
-            <button class="btn btn-outline-primary">Search</button>
+            <div id="resultsContainer">
+
+            </div>
         </div>
     </body>
 
