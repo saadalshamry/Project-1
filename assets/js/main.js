@@ -107,7 +107,7 @@ callback	The name of the callback function. Use for getting a JSONP response.
 
 function getSupportedLanguagesYandex(){
 
-    var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91&ui="  + sourceLanguage;
+    var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91&ui=en";
 
     $.ajax({
       url: queryURL,
