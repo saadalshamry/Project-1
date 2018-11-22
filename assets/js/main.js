@@ -171,5 +171,13 @@ function translateTextYandex (textToTranslate, languageFrom, languageTo, format)
       }); 
 
     }
+
 //Usage examples
 //translateTextYandex ("Hello world", "en", "ru", "plain");
+
+
+//Start local storage section
+//localStorage.setItem("name", name);
+//localStorage.getItem("name", name);
+
+});
