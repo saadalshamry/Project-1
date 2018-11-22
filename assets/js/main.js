@@ -58,10 +58,10 @@ $(document).ready(function () {
 
                     var $recallTitle = $('<p>');
                     if (translate) {
-                        translatedText = translateTextYandex(recallDetailObjects[i].title, "en", "ru", "Plain");
+                        translatedText = translateTextYandex(recallDetailObjects[i].title, "en", "ru", "plain");
                         $recallTitle.html(translatedText);
                     } else {
-                        $recallTitle.html(recallDetailObjects[i].title, "en", "ru", "Plain");
+                        $recallTitle.html(recallDetailObjects[i].title, "en", "ru", "plain");
                     }
                     $recallTitle.addClass('recallTitle');
                     $recallContainer.append($recallTitle);
@@ -83,10 +83,10 @@ $(document).ready(function () {
 
                                 var $imageTitle = $('<p>');
                                 if (translate) {
-                                    translatedText = translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "Plain");
+                                    translatedText = translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "plain");
                                     $imageTitle.html(translatedText);
                                 } else {
-                                    $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "Plain");
+                                    $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "plain");
                                 }
 
                                 $imageTitle.addClass('imageTitle');
@@ -105,20 +105,20 @@ $(document).ready(function () {
                             var $panelTitle = $('<p>');
                             $panelTitle.addClass('panelTitle');
                             if (translate) {
-                                translatedText = translateTextYandex(recallDetailObjects[i].panels[j].title, "en", "ru", "Plain");
+                                translatedText = translateTextYandex(recallDetailObjects[i].panels[j].title, "en", "ru", "plain");
                                 $panelTitle.html(translatedText);
                             } else {
-                                $panelTitle.html(recallDetailObjects[i].panels[j].title, "en", "ru", "Plain");
+                                $panelTitle.html(recallDetailObjects[i].panels[j].title, "en", "ru", "plain");
                             }
                             $panelContainer.append($panelTitle);
 
                             var $panelText = $('<p>');
                             $panelText.addClass('panelText');
                             if (translate) {
-                                translatedText = translateTextYandex(recallDetailObjects[i].panels[j].text, "en", "ru", "Plain");
+                                translatedText = translateTextYandex(recallDetailObjects[i].panels[j].text, "en", "ru", "plain");
                                 $panelText.html(translatedText);
                             } else {
-                                $panelText.html(recallDetailObjects[i].panels[j].text, "en", "ru", "Plain");
+                                $panelText.html(recallDetailObjects[i].panels[j].text, "en", "ru", "plain");
                             }
                             $panelContainer.append($panelText);
 
@@ -133,6 +133,9 @@ $(document).ready(function () {
         });
 
     }
+    
+
+
 
     //Source: http://healthycanadians.gc.ca/connect-connectez/data-donnees/recall-alert-rappel-avis-eng.php?wbdisable=true
     //var queryURLRecentRecalsSummary = "http://healthycanadians.gc.ca/recall-alert-rappel-avis/api/recent/en"
