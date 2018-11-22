@@ -313,8 +313,13 @@ callback	The name of the callback function. Use for getting a JSONP response.
 
 function getSupportedLanguagesYandex(){
 
-    var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91&ui=en";
-
+    //Chris' key
+   // var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91&ui=en";
+   
+   //Neil's key
+   var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872&ui=en";
+   
+   
     $.ajax({
       url: queryURL,
       method: "GET"
@@ -380,15 +385,18 @@ function getSupportedLanguagesYandex(){
         textToTranslate is passed to the div i.e. tempDiv.text(textToTranslate), 
         any HTML is parsed out. */
 
-        // var tempDiv = $("<div>");
-        // tempDiv.html(textToTranslate); //<-- I'm not sure if this should be .html or .text.  Still have to test.
-        // textToTranslate = tempDiv.text();
+        var tempDiv = $("<div>");
+        tempDiv.html(textToTranslate); //<-- I'm not sure if this should be .html or .text.  Still have to test.
+        textToTranslate = tempDiv.text();
         
         $.ajax({
             url: queryURL,
             method: "GET",
             data: {
-                key: "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91",
+                //Chris' key
+                //key: "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91",
+                //Neil's key
+                key: "trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872",
                 lang: languageFrom + "-" + languageTo,
                 format: format,
                 text: textToTranslate.substr(0, 8000)
