@@ -2,17 +2,88 @@ $(document).ready(function () {
 
     //neils code
     var translatedText;
-    var translate = true;
+    var translate = false;
+    var translateLanguageTo = "";
+    var categoriesSelected = [];
 
     var $categoryButtons = $('#categoryButtons');
 
+    
+    /*Gets the key localCategoriesSelected from local storage if it exists.
+    The value is an array of categories selected by the user based on the value of the category buttons.
+    */
+    function getLocalStorage(){
 
+        //Using JSON.parse to get the "string" from local storage back as an array.
+        var categoriesSelectedLocalStorage = JSON.parse(localStorage.getItem("localCategoriesSelected"));
+       
+        if (categoriesSelectedLocalStorage !== null){
+    
+            for (i=0; i< categoriesSelectedLocalStorage.length;i++){
+                
+                if (categoriesSelectedLocalStorage[i] === "ALL"){
+                  // Change appearance of button. Maybe make it green or something.
+                }
+                else if (categoriesSelectedLocalStorage[i] === "CPS"){
+                   //
+                 }
+                 else if (categoriesSelectedLocalStorage[i] === "FOOD"){
+                    //
+                 }
+                 else if (categoriesSelectedLocalStorage[i] === "HEALTH"){
+                    //
+                 }
+                 else if (categoriesSelectedLocalStorage[i] === "VEHICLE"){
+                    //
+                 }
+            }
+        }
+       
+
+    }
+
+   
+        /*Will set the local storage key localCategoriesSelected to the array of category
+        selections made by the user*/
+        function setLocalStorage(){
+            var categoriesSelectedLocalStorage = localStorage.getItem("localCategoriesSelected");
+
+        /*If the local storage key localCategoriesSelected does not exist - OR - the key does exist but
+        the category selected by the user does not exist in the array returned*/
+          if   (categoriesSelectedLocalStorage === null || categoriesSelected.indexOf(userCategorySelection) === -1){
+                //Add the user's category selection to the categoriesSelected array.
+                categoriesSelected.push(userCategorySelection);
+                //Add the categoriesSelected array to local storage.
+               localStorage.setItem("localCategoriesSelected", JSON.stringify(categoriesSelected));
+          }
+          
+
+        }
+  
+
+        
+    getLocalStorage();
 
     var userCategorySelection;
     $(document).on("click", ".categoryButtons", function () {
         var $element = $(this);
         userCategorySelection = $element.attr('value');
-        console.log(userCategorySelection);
+
+        setLocalStorage();
+
+        /*The selected language option from the Language drop down. 
+        The .val() method is used to return the value assigned to the option.
+        The value assigned to the option would the language code i.e. "en" for "English"
+        if you wanted the language name, you could use .text().*/
+        translateLanguageTo = $("#language option:selected" ).val();
+
+        /*Only translate if the language is NOT English (any other language other than English)
+        The source language (language from) will always be English for this project.
+        If the language selected is NOT English, set the translate variable to true.*/
+        if (translateLanguageTo !== "en") {
+            translate = true
+        }
+
         showRecalls(userCategorySelection);
     });
 
@@ -30,8 +101,8 @@ $(document).ready(function () {
             Accept: "application/json",
             dataType: 'json'
         }).then(function (response) {
-            console.log("the summary object");
-            console.log(response);
+            //console.log("the summary object");
+            //console.log(response);
 
             // userCategorySelection can be set to one of: ALL, CPS, FOOD, HEALTH, VEHICLE... note CPS is Consumer Goods
             for (let i = 0; i < response.results[category].length; i++) {
@@ -45,8 +116,8 @@ $(document).ready(function () {
                 }).then(function (detailData) {
 
                     recallDetailObjects[i] = detailData;
-                    console.log("recall detail object is:");
-                    console.log(detailData);
+                    //console.log("recall detail object is:");
+                    //console.log(detailData);
 
                     var $recallContainer = $('<div>');
                     $recallContainer.addClass('recallContainer');
@@ -58,14 +129,14 @@ $(document).ready(function () {
 
                     var $recallTitle = $('<p>');
                     if (translate) {
-                        translatedText = translateTextYandex(recallDetailObjects[i].title, "en", "ru", "plain");
+                        translateTextYandex(recallDetailObjects[i].title, "en", translateLanguageTo, "plain","recallTitle", $recallTitle, $recallContainer);
                         
-                        $recallTitle.html(translatedText);
+                        // $recallTitle.html(translatedText);
                     } else {
-                        $recallTitle.html(recallDetailObjects[i].title, "en", "ru", "plain");
+                        $recallTitle.html(recallDetailObjects[i].title);
                     }
-                    $recallTitle.addClass('recallTitle');
-                    $recallContainer.append($recallTitle);
+                    // $recallTitle.addClass('recallTitle');
+                    // $recallContainer.append($recallTitle);
 
                     for (let j = 0; j < recallDetailObjects[i].panels.length; j++) {
                         var $panelContainer = $('<div>');
@@ -77,24 +148,27 @@ $(document).ready(function () {
                             for (let k = 0; k < recallDetailObjects[i].panels[j].data.length; k++) {
 
                                 var fullUrl = baseURLimages + recallDetailObjects[i].panels[j].data[k].fullUrl;
+                                console.log(fullUrl);
                                 var $image = $('<img>');
                                 $image.addClass('image');
                                 $image.attr('src', fullUrl);
                                 $imageContainer.append($image);
+                                $panelContainer.append($imageContainer);
+                                $recallContainer.append($panelContainer);
 
                                 var $imageTitle = $('<p>');
                                 if (translate) {
-                                    translatedText = translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "plain");
-                                    $imageTitle.html(translatedText);
+                                    translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", translateLanguageTo, "plain", 'imageTitle', $imageTitle, $imageContainer, $panelContainer);
+                                    // $imageTitle.html(translatedText);
                                 } else {
-                                    $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title, "en", "ru", "plain");
+                                    $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title);
                                 }
 
-                                $imageTitle.addClass('imageTitle');
-                                $imageContainer.append($imageTitle);
+                                // $imageTitle.addClass('imageTitle');
+                                // $imageContainer.append($imageTitle);
 
                             }
-                            $panelContainer.append($imageContainer);
+                            //$panelContainer.append($imageContainer);
 
                         } else {
                             // don't need to show panelName to user
@@ -106,25 +180,25 @@ $(document).ready(function () {
                             var $panelTitle = $('<p>');
                             $panelTitle.addClass('panelTitle');
                             if (translate) {
-                                translatedText = translateTextYandex(recallDetailObjects[i].panels[j].title, "en", "ru", "plain");
-                                $panelTitle.html(translatedText);
+                                translateTextYandex(recallDetailObjects[i].panels[j].title, "en", translateLanguageTo, "plain", '',  $panelTitle, $panelContainer, "");
+                                // $panelTitle.html(translatedText);
                             } else {
-                                $panelTitle.html(recallDetailObjects[i].panels[j].title, "en", "ru", "plain");
+                                $panelTitle.html(recallDetailObjects[i].panels[j].title);
                             }
-                            $panelContainer.append($panelTitle);
+                            // $panelContainer.append($panelTitle);
 
                             var $panelText = $('<p>');
                             $panelText.addClass('panelText');
                             if (translate) {
-                                translatedText = translateTextYandex(recallDetailObjects[i].panels[j].text, "en", "ru", "plain");
+                                translateTextYandex(recallDetailObjects[i].panels[j].text, "en", translateLanguageTo, "plain", '', $panelText, $panelContainer, $recallContainer);
                                 $panelText.html(translatedText);
                             } else {
-                                $panelText.html(recallDetailObjects[i].panels[j].text, "en", "ru", "plain");
+                                $panelText.html(recallDetailObjects[i].panels[j].text);
                             }
-                            $panelContainer.append($panelText);
+                            // $panelContainer.append($panelText);
 
                         }
-                        $recallContainer.append($panelContainer);
+                        // $recallContainer.append($panelContainer);
                     }
 
                     $('#resultsContainer').append($recallContainer);
@@ -235,11 +309,6 @@ All the language codes are shown in the list of supported languages.
 
 callback	The name of the callback function. Use for getting a JSONP response.
 
-
-
-
-
- 
  */
 
 function getSupportedLanguagesYandex(){
@@ -251,8 +320,8 @@ function getSupportedLanguagesYandex(){
       method: "GET"
       }).then(function (response) {
           
-      //This will return an array of supported languages.  The array will look like
-      /*
+      /*This will return an array of supported languages.  
+      The entries variables will look like the following array
       0: Array(2)
           0: "af"
           1: "Afrikaans"
@@ -270,13 +339,13 @@ function getSupportedLanguagesYandex(){
       });
 
 
-            //For each array element get the 
+        //For each array element get the next array
       entries.forEach(function (lang) {
-      
-          console.log(lang[0],lang[1]);
-          
+
           var option=$('<option>');
-          option.val(lang[0]);
+          //This will be the language code i.e. 'en'
+          option.val(lang[0]);  
+          //This will be the language name i.e. 'English'
           option.text(lang[1]);
           $('#language').append(option);
 
@@ -286,53 +355,59 @@ function getSupportedLanguagesYandex(){
         }); //End of Then
     }
 
-    // This function will use the Yandex (free) API to translate the text passed to it
+    /* 
+    This function will use the Yandex (free) API to translate the text passed to it
     // *********************************************
-    // !! This function returns a string.  Ensure to assign the result of the function call to a variable !! 
+    // This function accepts the following arguments
+    textToTranslate: This is the source text to translate
+    languageFrom: This is the source langauge.  For this project the source language will always be "en" (English).
+    languageTo: This is the language that should be displayed to the user based on the user's language selection.
+    format: This will be either "html" or "plain" depending on the text format required in the repsonse.  For this project we will always use "plain".
+    divClass: This is the class to assign the divName (the div that will be created).
+    divName: The div that will be created.  This div will contain the translated text.
+    divContainer: A div container to hold the divName.
+    divContainer2: A div container (an addional div container) to hold the previous div container. i.e. a conainer within a container
     // *********************************************
-    function translateTextYandex(textToTranslate, languageFrom, languageTo, format) {
-
-        var textToTranslateEncoded = encodeURI(textToTranslate);
+    */
+    function translateTextYandex(textToTranslate, languageFrom, languageTo, format, divClass, divName, divContainer, divContainer2 ) {
 
         //The Yandex queryURL string
         var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/translate";
 
-        //Add the key "text" and pass the value as the text to translate
-        //queryURL = queryURL + "&text=" + textToTranslate;
+        /* This is to test Angelo's recommendation to force "clean" text without any HTML.
+        Angelo recommended to create a temp div, assign it the text to translate 
+        (which could contain HTML), then read the text back.  When the 
+        textToTranslate is passed to the div i.e. tempDiv.text(textToTranslate), 
+        any HTML is parsed out. */
 
-        //Add the key "lang" and pass the value as the language to translate from, a dash, and the 
-        //language to translate to i.e. English to Russion would be lang value of en-ru.  
-        //The languageFrom will always be 'en' for this project.
-       // queryURL = queryURL + "&lang=" + languageFrom + "-" + languageTo;
-
-        //Add the "format" key and pass the value as either HTML or Plain depending on the text
-        //formatting required. 
-        //queryURL = queryURL + "&format=" + format;
-
+        // var tempDiv = $("<div>");
+        // tempDiv.html(textToTranslate); //<-- I'm not sure if this should be .html or .text.  Still have to test.
+        // textToTranslate = tempDiv.text();
+        
         $.ajax({
             url: queryURL,
-            method: "POST",
+            method: "GET",
             data: {
                 key: "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91",
                 lang: languageFrom + "-" + languageTo,
                 format: format,
-                text: textToTranslate.substr(0, 5000)
+                text: textToTranslate.substr(0, 8000)
             }
         }).then(function (response) {
 
-            return response;
+            divName.text(response.text);
+            divName.addClass(divClass);
+            divContainer.append(divName);
+
+            if (divContainer2 !== ""){
+                divContainer2.append(divContainer);
+            }
+
 
         });
 
     }
 
-    //Usage examples
-    //translateTextYandex ("Hello world", "en", "ru", "plain");
-
-
-    //Start local storage section
-    //localStorage.setItem("name", name);
-    //localStorage.getItem("name", name);
 
     getSupportedLanguagesYandex();
 
