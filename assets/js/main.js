@@ -141,6 +141,9 @@ function getSupportedLanguagesYandex(){
 }
 
 // This function will use the Yandex (free) API to translate the text passed to it
+// *********************************************
+// !! This function returns a string.  Ensure to assign the result of the function call to a variable !! 
+// *********************************************
 function translateTextYandex (textToTranslate, languageFrom, languageTo, format){
 
   //The Yandex queryURL string
