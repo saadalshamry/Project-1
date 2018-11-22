@@ -132,8 +132,10 @@ function getSupportedLanguagesYandex(){
       
           console.log(lang[0],lang[1]);
           
-          $("#language").val(lang[0]);
-          $("#language").text(lang[1]);
+          var option=$('<option>');
+          option.val(lang[0]);
+          option.text(lang[1]);
+          $('#language').append(option);
  
         });
 
