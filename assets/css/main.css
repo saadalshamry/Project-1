@@ -5,10 +5,25 @@ body {
 
 .recallContainer {
     border: 1px solid #ddd;
-    padding: 5px;
+    padding: 20px;
     margin: 20px;
     cursor: pointer;
     border-radius: 10px;
+}
+
+#language {
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #eee;
+}
+
+.btn {
+    background: rgb(248, 100, 100);
+}
+
+.active {
+    background-color: teal;
 }
 
 .recallID {

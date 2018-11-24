@@ -27,30 +27,28 @@
             </div>
         </nav>
         <div class="container">
-            <div class="input-field">
 
-                <select id="language">
-                    <option value="en" selected>English</option>
-                </select>
-                <label class="red-text text-accent-1">Choose language</label>
-            </div>
+            <label class="red-text text-accent-1">Choose language</label>
+            <select id="language">
+                <option value="en" selected>English</option>
+            </select>
             <br>
             <label class="red-text text-accent-1">Choose a Category</label>
             <div>
-                <div class="btn red accent-3 btn-outline-danger categoryButtons
+                <div class="btn btn-outline-danger categoryButtons
                     btn-all"
                     value="ALL">ALL</div>
-                <div class="btn red accent-3 btn-outline-danger categoryButtons
+                <div class="btn btn-outline-danger categoryButtons
                     btn-cps"
                     value="CPS">Consumer
                     Products</div>
-                <div class="btn red accent-3 btn-outline-danger categoryButtons
+                <div class="btn btn-outline-danger categoryButtons
                     btn-food"
                     value="FOOD">Food</div>
-                <div class="btn red accent-3 btn-outline-danger categoryButtons
+                <div class="btn btn-outline-danger categoryButtons
                     btn-health"
                     value="HEALTH">Health</div>
-                <div class="btn red accent-3 btn-outline-danger categoryButtons
+                <div class="btn btn-outline-danger categoryButtons
                     btn-vehicle"
                     value="VEHICLE">Vehicle</div>
             </div>
@@ -66,11 +64,7 @@
     </body>
     <script>
  document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('#language');
-    var instances = M.FormSelect.init(elems, {
-        classes: "red-text"
-    });
-
+    
 
 
     $(document).on('click', '.recallContainer', function(){
