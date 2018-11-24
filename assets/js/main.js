@@ -7,13 +7,13 @@ $(document).ready(function () {
     var categoriesSelected = [];
 
     //Chris' key
-    // var apiKey = "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91";
+     var apiKey = "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91";
    
     //Neil's key
     //var apiKey = "trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872";
    
     //Saad's key
-    var apiKey = "trnsl.1.1.20181124T154353Z.d8b12291d0f255b3.5ea00312fe96342f5c893312480068d8d123baac";
+    //var apiKey = "trnsl.1.1.20181124T154353Z.d8b12291d0f255b3.5ea00312fe96342f5c893312480068d8d123baac";
      
     var getLanguagesDefaultLanguage = 'en';
 
@@ -105,9 +105,9 @@ $(document).ready(function () {
         /*Only translate if the language is NOT English (any other language other than English)
         The source language (language from) will always be English for this project.
         If the language selected is NOT English, set the translate variable to true.*/
-        if (translateLanguageTo !== "en") {
+//        if (translateLanguageTo !== "en") {
             translate = true
-        }
+  //      }
 
         showRecalls(userCategorySelection);
     });
@@ -118,7 +118,7 @@ $(document).ready(function () {
         var recallIDs = [];
         var recallDetailObjects = [];
         var baseURL = 'https://healthycanadians.gc.ca/recall-alert-rappel-avis';
-        var baseURLimages = 'https://healthycanadians.gc.ca';
+
         var queryURL = baseURL + '/api/recent/english';
         $.ajax({
             url: queryURL,
@@ -131,116 +131,118 @@ $(document).ready(function () {
 
             // userCategorySelection can be set to one of: ALL, CPS, FOOD, HEALTH, VEHICLE... note CPS is Consumer Goods
             for (let i = 0; i < response.results[category].length; i++) {
+                getRecallDetails(response.results[category][i].recallId);
                 recallIDs[i] = response.results[category][i].recallId;
-                queryURL = baseURL + '/api/' + recallIDs[i];
-                $.ajax({
-                    url: queryURL,
-                    type: 'GET',
-                    Accept: "application/json",
-                    dataType: 'json'
-                }).then(function (detailData) {
+            }});
+        }
+                
+                
+    
+function getRecallDetails(recallID){
+    var baseURL = 'https://healthycanadians.gc.ca/recall-alert-rappel-avis';
+    var baseURLimages = 'https://healthycanadians.gc.ca';
+    var queryURL = baseURL + '/api/' + recallID;
+    $.ajax({
+        url: queryURL,
+        type: 'GET',
+        Accept: "application/json",
+        dataType: 'json'
+    }).then(function (detailData) {
 
-                    recallDetailObjects[i] = detailData;
-                    //console.log("recall detail object is:");
-                    //console.log(detailData);
+        var $recallContainer = $('<div>');
+        $recallContainer.addClass('recallContainer');
 
-                    var $recallContainer = $('<div>');
-                    $recallContainer.addClass('recallContainer');
+        var $recallID = $('<p>');
+        $recallID.html(detailData.recallId);
+        $recallID.addClass('recallID');
+        $recallContainer.append($recallID);
 
-                    var $recallID = $('<p>');
-                    $recallID.html(recallDetailObjects[i].recallId);
-                    $recallID.addClass('recallID');
-                    $recallContainer.append($recallID);
+        var $recallTitle = $('<p>');
+        if (translate) {
+            translateTextYandex(detailData.title, "en", translateLanguageTo, "plain","recallTitle", $recallTitle, $recallContainer);
+            
+            // $recallTitle.html(translatedText);
+        } else {
+            $recallTitle.html(detailData.title);
+            $recallTitle.addClass('recallTitle');
+            $recallContainer.append($recallTitle);
+        }
+        
 
-                    var $recallTitle = $('<p>');
+        for (let j = 0; j < detailData.panels.length; j++) {
+            var $panelContainer = $('<div>');
+            $panelContainer.addClass('panelContainer');
+            var panel=detailData.panels[j];
+            if (panel.panelName === 'images') {
+                var $imageContainer = $('<div>')
+                $imageContainer.addClass('imageContainer');
+                for (let k = 0; k < panel.data.length; k++) {
+
+                    var fullUrl = baseURLimages + panel.data[k].fullUrl;
+                    console.log(fullUrl);
+                    var $image = $('<img>');
+                    $image.addClass('image');
+                    $image.attr('src', fullUrl);
+                    $imageContainer.append($image);
+                    $panelContainer.append($imageContainer);
+                    $recallContainer.append($panelContainer);
+
+                    var $imageTitle = $('<p>');
                     if (translate) {
-                        translateTextYandex(recallDetailObjects[i].title, "en", translateLanguageTo, "plain","recallTitle", $recallTitle, $recallContainer);
-                        
-                        // $recallTitle.html(translatedText);
+                        console.log("image title before translation is:"+panel.data[k].title)
+                        translateTextYandex(panel.data[k].title, "en", translateLanguageTo, "plain", 'imageTitle', $imageTitle, $imageContainer, $panelContainer);
+                        // $imageTitle.html(translatedText);
                     } else {
-                        $recallTitle.html(recallDetailObjects[i].title);
-                        $recallTitle.addClass('recallTitle');
-                        $recallContainer.append($recallTitle);
+                        $imageTitle.html(panel.data[k].title);
+                        $imageTitle.addClass('imageTitle');
+                        $imageContainer.append($imageTitle);
                     }
+
                     
 
-                    for (let j = 0; j < recallDetailObjects[i].panels.length; j++) {
-                        var $panelContainer = $('<div>');
-                        $panelContainer.addClass('panelContainer');
+                }
+                //$panelContainer.append($imageContainer);
 
-                        if (recallDetailObjects[i].panels[j].panelName === 'images') {
-                            var $imageContainer = $('<div>')
-                            $imageContainer.addClass('imageContainer');
-                            for (let k = 0; k < recallDetailObjects[i].panels[j].data.length; k++) {
+            } else {
+                // don't need to show panelName to user
+                /*    var $panelName=$('<p>');
+                    $panelName.addClass('panelName');
+                    $panelName.html(recallDetailObjects[i].panels[j].panelName);
+                    $panelContainer.append($panelName);
+                */
+                var $panelTitle = $('<p>');
+                $panelTitle.addClass('panelTitle');
+                if (translate) {
+                    translateTextYandex(panel.title, "en", translateLanguageTo, "plain", '',  $panelTitle, $panelContainer, "");
+                    // $panelTitle.html(translatedText);
+                } else {
+                    $panelTitle.html(panel.title);
+                    $panelContainer.append($panelTitle);
+                }
+               
 
-                                var fullUrl = baseURLimages + recallDetailObjects[i].panels[j].data[k].fullUrl;
-                                console.log(fullUrl);
-                                var $image = $('<img>');
-                                $image.addClass('image');
-                                $image.attr('src', fullUrl);
-                                $imageContainer.append($image);
-                                $panelContainer.append($imageContainer);
-                                $recallContainer.append($panelContainer);
+                var $panelText = $('<p>');
+                $panelText.addClass('panelText');
+                if (translate) {
+                    translateTextYandex(panel.text, "en", translateLanguageTo, "plain", '', $panelText, $panelContainer, $recallContainer);
+                    // $panelText.html(translatedText);
+                } else {
+                    $panelText.html(panel.text);
+                     $panelContainer.append($panelText);
+                }
+                
 
-                                var $imageTitle = $('<p>');
-                                if (translate) {
-                                    translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", translateLanguageTo, "plain", 'imageTitle', $imageTitle, $imageContainer, $panelContainer);
-                                    // $imageTitle.html(translatedText);
-                                } else {
-                                    $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title);
-                                    $imageTitle.addClass('imageTitle');
-                                    $imageContainer.append($imageTitle);
-                                }
-
-                                
-
-                            }
-                            //$panelContainer.append($imageContainer);
-
-                        } else {
-                            // don't need to show panelName to user
-                            /*    var $panelName=$('<p>');
-                                $panelName.addClass('panelName');
-                                $panelName.html(recallDetailObjects[i].panels[j].panelName);
-                                $panelContainer.append($panelName);
-                            */
-                            var $panelTitle = $('<p>');
-                            $panelTitle.addClass('panelTitle');
-                            if (translate) {
-                                translateTextYandex(recallDetailObjects[i].panels[j].title, "en", translateLanguageTo, "plain", '',  $panelTitle, $panelContainer, "");
-                                // $panelTitle.html(translatedText);
-                            } else {
-                                $panelTitle.html(recallDetailObjects[i].panels[j].title);
-                                $panelContainer.append($panelTitle);
-                            }
-                           
-
-                            var $panelText = $('<p>');
-                            $panelText.addClass('panelText');
-                            if (translate) {
-                                translateTextYandex(recallDetailObjects[i].panels[j].text, "en", translateLanguageTo, "plain", '', $panelText, $panelContainer, $recallContainer);
-                                $panelText.html(translatedText);
-                            } else {
-                                $panelText.html(recallDetailObjects[i].panels[j].text);
-                                 $panelContainer.append($panelText);
-                            }
-                            
-
-                        }
-
-                        if (translate===false) {
-                             $recallContainer.append($panelContainer);
-                        }
-                    }
-
-                    $('#resultsContainer').append($recallContainer);
-
-                });
             }
-        });
 
-    }
-    
+            if (translate===false) {
+                 $recallContainer.append($panelContainer);
+            }
+        }
+
+        $('#resultsContainer').append($recallContainer);
+
+    });
+}
 
 
 
@@ -409,11 +411,10 @@ function getSupportedLanguagesYandex(){
     divContainer2: A div container (an addional div container) to hold the previous div container. i.e. a conainer within a container
     // *********************************************
     */
-    function translateTextYandex(textToTranslate, languageFrom, languageTo, format, divClass, divName, divContainer, divContainer2 ) {
+    function translateTextYandex(textToTranslate, languageFrom, languageTo, format, render ) {
 
         //The Yandex queryURL string
         var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/translate";
-
         /* This is to test Angelo's recommendation to force "clean" text without any HTML.
         Angelo recommended to create a temp div, assign it the text to translate 
         (which could contain HTML), then read the text back.  When the 
@@ -432,21 +433,8 @@ function getSupportedLanguagesYandex(){
                 format: format,
                 text: textToTranslate.substr(0, 8000)
             }
-        }).then(function (response) {
-
-            divName.text(response.text);
-            divName.addClass(divClass);  // Add class 'imageTitle' to $imageTitle 
-            divContainer.append(divName); // Append $imageTitle to $imageContainer
-
-            if (divContainer2 !== ""){
-                divContainer2.append(divContainer); //Append $imageContainer to $panelContainer
-            }
-
-
-        });
-
+        }).then(render);
     }
-
 
     getSupportedLanguagesYandex();
 
