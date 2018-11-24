@@ -142,9 +142,10 @@ $(document).ready(function () {
                         // $recallTitle.html(translatedText);
                     } else {
                         $recallTitle.html(recallDetailObjects[i].title);
+                        $recallTitle.addClass('recallTitle');
+                        $recallContainer.append($recallTitle);
                     }
-                    // $recallTitle.addClass('recallTitle');
-                    // $recallContainer.append($recallTitle);
+                    
 
                     for (let j = 0; j < recallDetailObjects[i].panels.length; j++) {
                         var $panelContainer = $('<div>');
@@ -170,10 +171,11 @@ $(document).ready(function () {
                                     // $imageTitle.html(translatedText);
                                 } else {
                                     $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title);
+                                    $imageTitle.addClass('imageTitle');
+                                    $imageContainer.append($imageTitle);
                                 }
 
-                                // $imageTitle.addClass('imageTitle');
-                                // $imageContainer.append($imageTitle);
+                                
 
                             }
                             //$panelContainer.append($imageContainer);
@@ -192,8 +194,9 @@ $(document).ready(function () {
                                 // $panelTitle.html(translatedText);
                             } else {
                                 $panelTitle.html(recallDetailObjects[i].panels[j].title);
+                                $panelContainer.append($panelTitle);
                             }
-                            // $panelContainer.append($panelTitle);
+                           
 
                             var $panelText = $('<p>');
                             $panelText.addClass('panelText');
@@ -202,11 +205,15 @@ $(document).ready(function () {
                                 $panelText.html(translatedText);
                             } else {
                                 $panelText.html(recallDetailObjects[i].panels[j].text);
+                                 $panelContainer.append($panelText);
                             }
-                            // $panelContainer.append($panelText);
+                            
 
                         }
-                        // $recallContainer.append($panelContainer);
+
+                        if (translate===false) {
+                             $recallContainer.append($panelContainer);
+                        }
                     }
 
                     $('#resultsContainer').append($recallContainer);
