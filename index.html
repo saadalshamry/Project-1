@@ -1,50 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-            crossorigin="anonymous">
-        <link rel="stylesheet" href="./assets/css/main.css">
-        <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
-        <script src="./assets/js/main.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat"
-            rel="stylesheet">
-        <title>Project</title>
-    </head>
-    <body>
-        <nav>
-            <div class="container">
-                <h1>logo</h1>
-            </div>
-        </nav>
-        <div class="container bg-white p-5">
-            <label for="language">Choose a language</label>
-            <select name="" id="language" class="form-control">
 
-            </select>
-            <br>
-            <label for="Category">Choose a category</label>
-            <div>
-                <div class="btn btn-outline-danger categoryButtons btn-all"  value="ALL">ALL</div>
-                <div class="btn btn-outline-danger categoryButtons btn-cps"  value="CPS">Consumer
-                    Products</div>
-                <div class="btn btn-outline-danger categoryButtons btn-food"
-                    value="FOOD">Food</div>
-                <div class="btn btn-outline-danger categoryButtons btn-health" 
-                    value="HEALTH">Health</div>
-                <div class="btn btn-outline-danger categoryButtons btn-vehicle"
-                    value="VEHICLE">Vehicle</div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="./assets/js/main.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <title>Project</title>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <h1>logo</h1>
+        </div>
+    </nav>
+    <div class="container bg-white p-5">
+        <label for="language">Choose a language</label>
+        <select name="" id="language" class="form-control">
+
+        </select>
+        <br>
+        <label for="Category">Choose a category</label>
+        <div>
+            <div class="btn btn-outline-danger categoryButtons btn-all" value="ALL">ALL</div>
+            <div class="btn btn-outline-danger categoryButtons btn-cps" value="CPS">Consumer
+                Products</div>
+            <div class="btn btn-outline-danger categoryButtons btn-food" value="FOOD">Food</div>
+            <div class="btn btn-outline-danger categoryButtons btn-health" value="HEALTH">Health</div>
+            <div class="btn btn-outline-danger categoryButtons btn-vehicle" value="VEHICLE">Vehicle</div>
+
+
+            <div class="row">
+                <div class="col-sm-2">
+                    ALL
+
+                </div>
+
+                <div class="col-sm-2">
+                    Consumer Products
+
+                </div>
+
+                <div class="col-sm-2">
+
+                    FOOD
+                </div>
+
+                <div class="col-sm-2">
+
+                    HEALTH
+                </div>
+
+                <div class="col-sm-2">
+                    VEHICLE
+
+                </div>
+
+
             </div>
+
+
+
+    
+            <!-- Testing a toggle style of buttons -->
+            <!-- <div class="row">
+                <div class="col-sm-2">
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="all-options" id="all-yes" autocomplete="off"> Yes
+                        </label>
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="all-options" id="all-no" autocomplete="off"> No
+                        </label>
+                    </div>
+
+                </div>
+
+
+                <div class="col-sm-2">
+
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="options" id="cps-yes" autocomplete="off"> Yes
+                        </label>
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="options" id="cps-no" autocomplete="off" checked> No
+                        </label>
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-sm-2">
+
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="options" id="food-yes" autocomplete="off"> Yes
+                        </label>
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="options" id="food-no" autocomplete="off" checked> No
+                        </label>
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-sm-2">
+
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="options" id="health-yes" autocomplete="off"> Yes
+                        </label>
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="options" id="health-no" autocomplete="off" checked> No
+                        </label>
+                    </div>
+
+
+                </div>
+
+
+                <div class="col-sm-2">
+
+
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="options" id="vehicle-yes" autocomplete="off"> Yes
+                        </label>
+                        <label class="btn btn-outline-danger">
+                            <input type="radio" name="options" id="vehicle-no" autocomplete="off" checked> No
+                        </label>
+                    </div>
+
+
+                </div>
+
+            </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div id="resultsContainer">
 
             </div>
         </div>
-    </body>
+</body>
 
 </html>

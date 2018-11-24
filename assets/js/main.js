@@ -69,6 +69,14 @@ $(document).ready(function () {
         var $element = $(this);
         userCategorySelection = $element.attr('value');
 
+        // if ($element.hasClass("active")){
+        //     $element.removeClass("active");
+        // }
+        // else{
+        //     $element.addClass("active");
+        // }
+        
+
         setLocalStorage();
 
         /*The selected language option from the Language drop down. 
@@ -384,7 +392,6 @@ function getSupportedLanguagesYandex(){
         (which could contain HTML), then read the text back.  When the 
         textToTranslate is passed to the div i.e. tempDiv.text(textToTranslate), 
         any HTML is parsed out. */
-
         var tempDiv = $("<div>");
         tempDiv.html(textToTranslate); //<-- I'm not sure if this should be .html or .text.  Still have to test.
         textToTranslate = tempDiv.text();
