@@ -97,7 +97,7 @@ $(document).ready(function () {
 
     function showRecalls(category) {
         $("#resultsContainer").empty();
-
+        console.log ("hello world");
         var recallIDs = [];
         var recallDetailObjects = [];
         var baseURL = 'https://healthycanadians.gc.ca/recall-alert-rappel-avis';
@@ -345,7 +345,14 @@ function getSupportedLanguagesYandex(){
           length: 2
       */
       var entries = Object.entries(response.langs)
-
+        if (entries===null){
+            var option=$('<option>');
+            //This will be the language code i.e. 'en'
+            option.val('en');  
+            //This will be the language name i.e. 'English'
+            option.text('English');
+            $('#language').append(option);   
+        }
     
     entries.sort(function(arr1, arr2) {
         return arr1[1].charCodeAt(0) - arr2[1].charCodeAt(0);
