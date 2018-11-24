@@ -6,20 +6,31 @@ $(document).ready(function () {
     var translateLanguageTo = "";
     var categoriesSelected = [];
     var languagesSelected = [];
+    var userCategorySelection;
 
     //Chris' key
-    // var apiKey = "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91";
+     var apiKey = "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91";
    
     //Neil's key
     //var apiKey = "trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872";
    
     //Saad's key
-    var apiKey = "trnsl.1.1.20181124T154353Z.d8b12291d0f255b3.5ea00312fe96342f5c893312480068d8d123baac";
+    //var apiKey = "trnsl.1.1.20181124T154353Z.d8b12291d0f255b3.5ea00312fe96342f5c893312480068d8d123baac";
      
     var getLanguagesDefaultLanguage = 'en';
 
-    var $categoryButtons = $('#categoryButtons');
+    getSupportedLanguagesYandex();
 
+    
+    getLocalStorageCategories();
+    getLocalStorageLanguages();
+
+    if (categoriesSelected[0] !== null && languagesSelected[0] !== null){
+      
+        runProgram();
+    }
+
+    
     
     /*Gets the key localCategoriesSelected from local storage if it exists.
     The value is an array of categories selected by the user based on the value of the category buttons.
@@ -32,7 +43,12 @@ $(document).ready(function () {
         if (categoriesSelectedLocalStorage !== null){
     
             for (i=0; i< categoriesSelectedLocalStorage.length;i++){
-                
+
+               // if (categoriesSelected.indexOf(categoriesSelectedLocalStorage[i]) === -1){
+                    categoriesSelected[0] = categoriesSelectedLocalStorage[i];
+                    userCategorySelection = categoriesSelected[0];
+              //  }
+                    
                 setButtonStatus(categoriesSelectedLocalStorage[i]);
             }
         }
@@ -41,14 +57,7 @@ $(document).ready(function () {
     }
 
 
-    // function autoLoadPage(){
-
-    //     if 
-
-    // }
-
-
-/*Gets the key localLanguagesSelected from local storage if it exists.
+  /*Gets the key localLanguagesSelected from local storage if it exists.
     The value is an array of languages selected by the user based on the value of the language drop down.
     */
    function getLocalStorageLanguages(){
@@ -56,9 +65,15 @@ $(document).ready(function () {
     //Using JSON.parse to get the "string" from local storage back as an array.
     var languagesSelectedLocalStorage = JSON.parse(localStorage.getItem("localLanguagesSelected"));
    
-    if (languagesSelectedLocalStorage !== null){
+    if (languagesSelectedLocalStorage !== null ){
 
         for (i=0; i< languagesSelectedLocalStorage.length;i++){
+
+          //  if (languagesSelected.indexOf(languagesSelectedLocalStorage[i]) === -1){
+                languagesSelected[0] = languagesSelectedLocalStorage[i];
+                translateLanguageTo = languagesSelected[0];
+          //  }
+
             
             setLanguagesSelected(languagesSelectedLocalStorage[i]);
         }
@@ -128,11 +143,13 @@ $(document).ready(function () {
    
         /*Will set the local storage key localCategoriesSelected to the array of category
         selections made by the user*/
-        function setLocalStorageCategories(){
+        function setLocalStorageCategories(userCategorySelection){
             var categoriesSelectedLocalStorage = localStorage.getItem("localCategoriesSelected");
+
 
         /*If the local storage key localCategoriesSelected does not exist - OR - the key does exist but
         the category selected by the user does not exist in the array returned*/
+        
           if   (categoriesSelectedLocalStorage === null || categoriesSelected.indexOf(userCategorySelection) === -1){
                 //Add the user's category selection to the categoriesSelected array.
 
@@ -166,7 +183,7 @@ $(document).ready(function () {
 
          /*Will set the local storage key localLanguagesSelected to the array of category
         selections made by the user*/
-        function setLocalStorageLanguages(){
+        function setLocalStorageLanguages(translateLanguageTo){
             var languagesSelectedLocalStorage = localStorage.getItem("localLanguagesSelected");
 
         /*If the local storage key localLanguagesSelected does not exist - OR - the key does exist but
@@ -188,39 +205,35 @@ $(document).ready(function () {
           }
 
         }
-
-
-
-
-
-
-
         
         getLocalStorageCategories();
         
 
-    var userCategorySelection;
+    
     $(document).on("click", ".categoryButtons", function () {
         var $element = $(this);
         userCategorySelection = $element.attr('value');
-
-        // if ($element.hasClass("active")){
-        //     $element.removeClass("active");
-        // }
-        // else{
-        //     $element.addClass("active");
-        // }
         
-
-        setLocalStorageCategories();
-
         /*The selected language option from the Language drop down. 
         The .val() method is used to return the value assigned to the option.
         The value assigned to the option would the language code i.e. "en" for "English"
         if you wanted the language name, you could use .text().*/
         translateLanguageTo = $("#language option:selected" ).val();
 
-        setLocalStorageLanguages();
+        setLocalStorageCategories(userCategorySelection);
+
+        setLocalStorageLanguages(translateLanguageTo);
+
+        runProgram();
+        
+    });
+
+
+
+    function runProgram(){
+
+
+
 
         /*Only translate if the language is NOT English (any other language other than English)
         The source language (language from) will always be English for this project.
@@ -228,9 +241,14 @@ $(document).ready(function () {
         if (translateLanguageTo !== "en") {
             translate = true
         }
-
+            
         showRecalls(userCategorySelection);
-    });
+
+    }
+
+
+
+    
 
     function showRecalls(category) {
         $("#resultsContainer").empty();
@@ -569,6 +587,6 @@ function getSupportedLanguagesYandex(){
     }
 
 
-    getSupportedLanguagesYandex();
+    
 
 });
