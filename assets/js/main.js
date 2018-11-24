@@ -142,9 +142,10 @@ $(document).ready(function () {
                         // $recallTitle.html(translatedText);
                     } else {
                         $recallTitle.html(recallDetailObjects[i].title);
+                        $recallTitle.addClass('recallTitle');
+                        $recallContainer.append($recallTitle);
                     }
-                    // $recallTitle.addClass('recallTitle');
-                    // $recallContainer.append($recallTitle);
+                    
 
                     for (let j = 0; j < recallDetailObjects[i].panels.length; j++) {
                         var $panelContainer = $('<div>');
@@ -170,10 +171,11 @@ $(document).ready(function () {
                                     // $imageTitle.html(translatedText);
                                 } else {
                                     $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title);
+                                    $imageTitle.addClass('imageTitle');
+                                    $imageContainer.append($imageTitle);
                                 }
 
-                                // $imageTitle.addClass('imageTitle');
-                                // $imageContainer.append($imageTitle);
+                                
 
                             }
                             //$panelContainer.append($imageContainer);
@@ -192,8 +194,9 @@ $(document).ready(function () {
                                 // $panelTitle.html(translatedText);
                             } else {
                                 $panelTitle.html(recallDetailObjects[i].panels[j].title);
+                                $panelContainer.append($panelTitle);
                             }
-                            // $panelContainer.append($panelTitle);
+                           
 
                             var $panelText = $('<p>');
                             $panelText.addClass('panelText');
@@ -202,11 +205,15 @@ $(document).ready(function () {
                                 $panelText.html(translatedText);
                             } else {
                                 $panelText.html(recallDetailObjects[i].panels[j].text);
+                                 $panelContainer.append($panelText);
                             }
-                            // $panelContainer.append($panelText);
+                            
 
                         }
-                        // $recallContainer.append($panelContainer);
+
+                        if (translate===false) {
+                             $recallContainer.append($panelContainer);
+                        }
                     }
 
                     $('#resultsContainer').append($recallContainer);
@@ -325,8 +332,11 @@ function getSupportedLanguagesYandex(){
    // var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91&ui=en";
    
    //Neil's key
-   var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872&ui=en";
+   //var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872&ui=en";
    
+   //Saad's key
+   var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181124T154353Z.d8b12291d0f255b3.5ea00312fe96342f5c893312480068d8d123baac&ui=en";
+     
    
     $.ajax({
       url: queryURL,
