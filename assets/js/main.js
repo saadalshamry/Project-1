@@ -32,24 +32,59 @@ $(document).ready(function () {
     
             for (i=0; i< categoriesSelectedLocalStorage.length;i++){
                 
-                if (categoriesSelectedLocalStorage[i] === "ALL"){
-
-                }
-                else if (categoriesSelectedLocalStorage[i] === "CPS"){
-                   //
-                 }
-                 else if (categoriesSelectedLocalStorage[i] === "FOOD"){
-                    //
-                 }
-                 else if (categoriesSelectedLocalStorage[i] === "HEALTH"){
-                    //
-                 }
-                 else if (categoriesSelectedLocalStorage[i] === "VEHICLE"){
-                    //
-                 }
+                setButtonStatus(categoriesSelectedLocalStorage[i]);
             }
         }
        
+
+    }
+
+    /*This function will set the "Active" status of the button.
+    A button is "Active" when it has the "active" class added to it. 
+    This will make the button show in a solid red. */
+    function setButtonStatus(selectedButtonValue){
+
+        if (selectedButtonValue === "ALL"){
+            $('.btn-all').addClass("active");
+        }
+        else
+        {
+            $('.btn-all').removeClass("active");
+        }
+
+        if (selectedButtonValue === "CPS"){
+            $('.btn-cps').addClass("active");
+         }
+         else
+         {
+             $('.btn-cps').removeClass("active");
+         }
+
+
+         if (selectedButtonValue === "FOOD"){
+            $('.btn-food').addClass("active");
+         }
+         else
+         {
+             $('.btn-food').removeClass("active");
+         }
+
+       if (selectedButtonValue === "HEALTH"){
+            $('.btn-health').addClass("active");
+         }
+         else
+         {
+             $('.btn-health').removeClass("active");
+         }
+
+         if (selectedButtonValue === "VEHICLE"){
+            $('.btn-vehicle').addClass("active");
+         }
+         else
+         {
+             $('.btn-vehicle').removeClass("active");
+         }
+
 
     }
 
@@ -66,6 +101,9 @@ $(document).ready(function () {
 
                 //For now we are just using the 0 index of the array i.e. One category is stored. 
                 categoriesSelected[0]= userCategorySelection;
+
+                //Set the button status 
+                setButtonStatus(categoriesSelected[0]);
 
                 //If in the future we want to have multiple categories selected.
                 //categoriesSelected.push(userCategorySelection);
