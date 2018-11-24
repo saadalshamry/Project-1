@@ -6,6 +6,17 @@ $(document).ready(function () {
     var translateLanguageTo = "";
     var categoriesSelected = [];
 
+    //Chris' key
+    // var apiKey = "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91";
+   
+    //Neil's key
+    //var apiKey = "trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872";
+   
+    //Saad's key
+    var apiKey = "trnsl.1.1.20181124T154353Z.d8b12291d0f255b3.5ea00312fe96342f5c893312480068d8d123baac";
+     
+    var getLanguagesDefaultLanguage = 'en';
+
     var $categoryButtons = $('#categoryButtons');
 
     
@@ -22,7 +33,7 @@ $(document).ready(function () {
             for (i=0; i< categoriesSelectedLocalStorage.length;i++){
                 
                 if (categoriesSelectedLocalStorage[i] === "ALL"){
-                  // Change appearance of button. Maybe make it green or something.
+
                 }
                 else if (categoriesSelectedLocalStorage[i] === "CPS"){
                    //
@@ -52,7 +63,13 @@ $(document).ready(function () {
         the category selected by the user does not exist in the array returned*/
           if   (categoriesSelectedLocalStorage === null || categoriesSelected.indexOf(userCategorySelection) === -1){
                 //Add the user's category selection to the categoriesSelected array.
-                categoriesSelected.push(userCategorySelection);
+
+                //For now we are just using the 0 index of the array i.e. One category is stored. 
+                categoriesSelected[0]= userCategorySelection;
+
+                //If in the future we want to have multiple categories selected.
+                //categoriesSelected.push(userCategorySelection);
+
                 //Add the categoriesSelected array to local storage.
                localStorage.setItem("localCategoriesSelected", JSON.stringify(categoriesSelected));
           }
@@ -328,16 +345,9 @@ callback	The name of the callback function. Use for getting a JSONP response.
 
 function getSupportedLanguagesYandex(){
 
-    //Chris' key
-   // var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91&ui=en";
-   
-   //Neil's key
-   //var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872&ui=en";
-   
-   //Saad's key
-   var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181124T154353Z.d8b12291d0f255b3.5ea00312fe96342f5c893312480068d8d123baac&ui=en";
-     
-   
+
+    var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=" + apiKey + "&ui=" + getLanguagesDefaultLanguage;
+
     $.ajax({
       url: queryURL,
       method: "GET"
@@ -417,10 +427,7 @@ function getSupportedLanguagesYandex(){
             url: queryURL,
             method: "GET",
             data: {
-                //Chris' key
-                //key: "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91",
-                //Neil's key
-                key: "trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872",
+                key: apiKey,
                 lang: languageFrom + "-" + languageTo,
                 format: format,
                 text: textToTranslate.substr(0, 8000)
@@ -428,11 +435,11 @@ function getSupportedLanguagesYandex(){
         }).then(function (response) {
 
             divName.text(response.text);
-            divName.addClass(divClass);
-            divContainer.append(divName);
+            divName.addClass(divClass);  // Add class 'imageTitle' to $imageTitle 
+            divContainer.append(divName); // Append $imageTitle to $imageContainer
 
             if (divContainer2 !== ""){
-                divContainer2.append(divContainer);
+                divContainer2.append(divContainer); //Append $imageContainer to $panelContainer
             }
 
 
