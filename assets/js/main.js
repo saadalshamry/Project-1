@@ -332,8 +332,11 @@ function getSupportedLanguagesYandex(){
    // var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91&ui=en";
    
    //Neil's key
-   var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872&ui=en";
+   //var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181122T172352Z.219e66ea794b47a7.d38015ba75421c81cf9125e4e9371fa1fb2f8872&ui=en";
    
+   //Saad's key
+   var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20181124T154353Z.d8b12291d0f255b3.5ea00312fe96342f5c893312480068d8d123baac&ui=en";
+     
    
     $.ajax({
       url: queryURL,
