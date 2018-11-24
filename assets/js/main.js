@@ -5,6 +5,7 @@ $(document).ready(function () {
     var translate = false;
     var translateLanguageTo = "";
     var categoriesSelected = [];
+    var languagesSelected = [];
 
     //Chris' key
     // var apiKey = "trnsl.1.1.20181120T185250Z.245d06bd93fae3b3.650dd5c0e49e6bd5f17ac6a446ae8362c5a2da91";
@@ -23,7 +24,7 @@ $(document).ready(function () {
     /*Gets the key localCategoriesSelected from local storage if it exists.
     The value is an array of categories selected by the user based on the value of the category buttons.
     */
-    function getLocalStorage(){
+    function getLocalStorageCategories(){
 
         //Using JSON.parse to get the "string" from local storage back as an array.
         var categoriesSelectedLocalStorage = JSON.parse(localStorage.getItem("localCategoriesSelected"));
@@ -38,6 +39,42 @@ $(document).ready(function () {
        
 
     }
+
+
+    // function autoLoadPage(){
+
+    //     if 
+
+    // }
+
+
+/*Gets the key localLanguagesSelected from local storage if it exists.
+    The value is an array of languages selected by the user based on the value of the language drop down.
+    */
+   function getLocalStorageLanguages(){
+
+    //Using JSON.parse to get the "string" from local storage back as an array.
+    var languagesSelectedLocalStorage = JSON.parse(localStorage.getItem("localLanguagesSelected"));
+   
+    if (languagesSelectedLocalStorage !== null){
+
+        for (i=0; i< languagesSelectedLocalStorage.length;i++){
+            
+            setLanguagesSelected(languagesSelectedLocalStorage[i]);
+        }
+    }
+   
+
+}
+
+
+
+
+
+
+
+
+
 
     /*This function will set the "Active" status of the button.
     A button is "Active" when it has the "active" class added to it. 
@@ -91,7 +128,7 @@ $(document).ready(function () {
    
         /*Will set the local storage key localCategoriesSelected to the array of category
         selections made by the user*/
-        function setLocalStorage(){
+        function setLocalStorageCategories(){
             var categoriesSelectedLocalStorage = localStorage.getItem("localCategoriesSelected");
 
         /*If the local storage key localCategoriesSelected does not exist - OR - the key does exist but
@@ -111,13 +148,56 @@ $(document).ready(function () {
                 //Add the categoriesSelected array to local storage.
                localStorage.setItem("localCategoriesSelected", JSON.stringify(categoriesSelected));
           }
-          
+
+        }
+
+
+
+
+        function setLanguagesSelected(selectedLanguageValue){
+
+            $('#language option:selected').removeAttr('selected');
+            $('#language').val(selectedLanguageValue).attr("selected", "selected");
 
         }
   
 
+
+
+         /*Will set the local storage key localLanguagesSelected to the array of category
+        selections made by the user*/
+        function setLocalStorageLanguages(){
+            var languagesSelectedLocalStorage = localStorage.getItem("localLanguagesSelected");
+
+        /*If the local storage key localLanguagesSelected does not exist - OR - the key does exist but
+        the language selected by the user does not exist in the array returned*/
+          if   (languagesSelectedLocalStorage === null || languagesSelected.indexOf(translateLanguageTo) === -1){
+                //Add the user's language selection to the languagesSelected array.
+
+                //For now we are just using the 0 index of the array i.e. One language is stored. 
+                languagesSelected[0]= translateLanguageTo;
+
+                //Set the drop down status 
+                setLanguagesSelected(languagesSelected[0]);
+
+                //If in the future we want to have multiple languages selected.
+                //languagesSelected.push(userLanguagesSelection);
+
+                //Add the languagesSelected array to local storage.
+               localStorage.setItem("localLanguagesSelected", JSON.stringify(languagesSelected));
+          }
+
+        }
+
+
+
+
+
+
+
         
-    getLocalStorage();
+        getLocalStorageCategories();
+        
 
     var userCategorySelection;
     $(document).on("click", ".categoryButtons", function () {
@@ -132,13 +212,15 @@ $(document).ready(function () {
         // }
         
 
-        setLocalStorage();
+        setLocalStorageCategories();
 
         /*The selected language option from the Language drop down. 
         The .val() method is used to return the value assigned to the option.
         The value assigned to the option would the language code i.e. "en" for "English"
         if you wanted the language name, you could use .text().*/
         translateLanguageTo = $("#language option:selected" ).val();
+
+        setLocalStorageLanguages();
 
         /*Only translate if the language is NOT English (any other language other than English)
         The source language (language from) will always be English for this project.
@@ -429,6 +511,7 @@ function getSupportedLanguagesYandex(){
 
         });
 
+        getLocalStorageLanguages();
 
         }); //End of Then
     }
