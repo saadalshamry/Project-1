@@ -1,76 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css"
+    />
+    <link rel="stylesheet" href="./assets/css/main.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./assets/js/main.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css"
-            />
-        <link rel="stylesheet" href="./assets/css/main.css">
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
-        <script src="./assets/js/main.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat"
-            rel="stylesheet">
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <title>Project</title>
-    </head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <title>Project</title>
+  </head>
 
-    <body>
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo">Logo</a>
-
-            </div>
-        </nav>
-        <div class="container">
-
-            <label class="red-text text-accent-1">Choose language</label>
-            <select id="language">
-                <option value="en" selected>English</option>
-            </select>
-            <br>
-            <label class="red-text text-accent-1">Choose a Category</label>
-            <div>
-                <div class="btn btn-outline-danger categoryButtons
-                    btn-all"
-                    value="ALL">ALL</div>
-                <div class="btn btn-outline-danger categoryButtons
-                    btn-cps"
-                    value="CPS">Consumer
-                    Products</div>
-                <div class="btn btn-outline-danger categoryButtons
-                    btn-food"
-                    value="FOOD">Food</div>
-                <div class="btn btn-outline-danger categoryButtons
-                    btn-health"
-                    value="HEALTH">Health</div>
-                <div class="btn btn-outline-danger categoryButtons
-                    btn-vehicle"
-                    value="VEHICLE">Vehicle</div>
-            </div>
-
-
-            <div id="resultsContainer">
-
-            </div>
+  <body>
+    <!-- NAV-BAR SECTION -->
+    <nav
+      class="blue-grey darken-4
+    "
+    >
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="#" class="brand-logo center-align">Website Name</a>
         </div>
+      </div>
+    </nav>
+    <!-- BANNER SECTION -->
+    <div class="slider">
+      <ul class="slides">
+        <li>
+          <img src="./assets/images/main-4.jpeg" />
+          <!-- random image -->
+          <div class="caption center-align">
+            <h3>This is our big Tagline!</h3>
+            <h5>Here's our small slogan.</h5>
+          </div>
+        </li>
+        <li>
+          <img src="./assets/images/main-6.jpeg" />
+          <!-- random image -->
+          <div class="caption left-align ">
+            <h3>Left Aligned Caption</h3>
+            <h5>Here's our small slogan.</h5>
+          </div>
+        </li>
+        <li>
+          <img src="./assets/images/main-5.jpg" />
+          <!-- random image -->
+          <div class="caption right-align">
+            <h3>Right Aligned Caption</h3>
+            <h5>Here's our small slogan.</h5>
+          </div>
+        </li>
+      </ul>
+    </div>
 
+    <!-- SEARCH AND RESULTS SECTION -->
+    <div class="container content">
+      <h3 class="center-align">Recalls and safety alerts</h3>
+      <label>Choose a language :</label>
+      <select id="language">
+        <option value="en" selected>English</option>
+      </select>
+      <br />
+      <label>Choose a Category :</label>
+      <div>
+        <div
+          class="btn btn-outline-danger categoryButtons
+                    btn-all"
+          value="ALL"
+        >
+          ALL
+        </div>
+        <div
+          class="btn btn-outline-danger categoryButtons
+                    btn-cps"
+          value="CPS"
+        >
+          Consumer Products
+        </div>
+        <div
+          class="btn btn-outline-danger categoryButtons
+                    btn-food"
+          value="FOOD"
+        >
+          Food
+        </div>
+        <div
+          class="btn btn-outline-danger categoryButtons
+                    btn-health"
+          value="HEALTH"
+        >
+          Health
+        </div>
+        <div
+          class="btn btn-outline-danger categoryButtons
+                    btn-vehicle"
+          value="VEHICLE"
+        >
+          Vehicle
+        </div>
+        <div id="resultsContainer"></div>
+      </div>
+    </div>
 
+    <!-- FOOTER SECTION -->
+    <footer class="page-footer light-blue darken-3">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Website Name</h5>
+            <p class="grey-text text-lighten-4">Some Description.</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          Made with LOVE <i class="fas fa-heart"></i> By Saad, Neil, and Chris.
+          <a class="grey-text text-lighten-4 right" href="#">Back to Top</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // init sliders
+      var elems = document.querySelectorAll(".slider");
+      var instances = M.Slider.init(elems, {
+        height: 500
+      });
 
-    </body>
-    <script>
- document.addEventListener('DOMContentLoaded', function() {
-    
-
-
-    $(document).on('click', '.recallContainer', function(){
-        console.log(this)
-        $(this).children().toggle();
-    })
-  });
-      </script>
+      $(document).on("click", ".recallContainer", function() {
+        $(this)
+          .children(".panelContainer")
+          .toggle();
+      });
+    });
+  </script>
 </html>

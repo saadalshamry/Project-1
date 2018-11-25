@@ -1,51 +1,99 @@
 body {
-    background-color: #F8F6F5;
-    font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+body::-webkit-scrollbar {
+  width: 1em;
 }
 
+body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+/* BANNER STYLE */
+.slider h3,
+.slider h5 {
+  color: #fff;
+  font-weight: 900;
+}
+
+/* SEARCH AND RESULTS STYLE */
+select option {
+  background-color: #0277bd;
+  color: #fff;
+}
+
+.content {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+#resultsContainer {
+  min-height: 50px;
+  padding: 20px 0;
+}
 .recallContainer {
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin: 20px;
-    cursor: pointer;
-    border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: #fffbee;
+  color: #666;
 }
-
+.recallContainer img {
+  max-width: 100%;
+}
 #language {
-    display: block;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #eee;
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #eee;
 }
 
 .btn {
-    background: rgb(248, 100, 100);
+  background: rgb(248, 100, 100);
 }
 
-.active {
-    background-color: teal;
+.active,
+.btn:hover {
+  background-color: #0277bd;
 }
 
 .recallID {
-    color: burlywood;
+  font-weight: bold;
 }
-
+.recallID::before {
+  content: "Recall ID : ";
+  color: red;
+}
 .recallTitle {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .panelContainer {
-    display: none;
+  display: none;
 }
 
-.input-field label,
 label {
-    font-size: 20px;
-
+  font-size: 25px;
+  margin: 20px;
+  color: #444;
 }
-
+select,
+.btn {
+  margin: 20px;
+  max-width: fit-content;
+}
 .panelTitle {
-    color: red;
-    font-weight: bold;
-    font-size: 30px;
+  color: red;
+  font-weight: bold;
+  font-size: 30px;
 }
