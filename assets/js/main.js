@@ -252,7 +252,6 @@ $(document).ready(function () {
 
     function showRecalls(category) {
         $("#resultsContainer").empty();
-        console.log ("hello world");
         var recallIDs = [];
         var recallDetailObjects = [];
         var baseURL = 'https://healthycanadians.gc.ca/recall-alert-rappel-avis';
@@ -264,8 +263,8 @@ $(document).ready(function () {
             Accept: "application/json",
             dataType: 'json'
         }).then(function (response) {
-            //console.log("the summary object");
-            //console.log(response);
+            ////console.log("the summary object");
+            ////console.log(response);
 
             // userCategorySelection can be set to one of: ALL, CPS, FOOD, HEALTH, VEHICLE... note CPS is Consumer Goods
             for (let i = 0; i < response.results[category].length; i++) {
@@ -279,8 +278,8 @@ $(document).ready(function () {
                 }).then(function (detailData) {
 
                     recallDetailObjects[i] = detailData;
-                    //console.log("recall detail object is:");
-                    //console.log(detailData);
+                    ////console.log("recall detail object is:");
+                    ////console.log(detailData);
 
                     var $recallContainer = $('<div>');
                     $recallContainer.addClass('recallContainer');
@@ -292,7 +291,14 @@ $(document).ready(function () {
 
                     var $recallTitle = $('<p>');
                     if (translate) {
-                        translateTextYandex(recallDetailObjects[i].title, "en", translateLanguageTo, "plain","recallTitle", $recallTitle, $recallContainer);
+                       // translateTextYandex(recallDetailObjects[i].title, "en", translateLanguageTo, "plain","recallTitle", $recallTitle, $recallContainer);
+                    //console.log("title");
+                       translateTextYandex(recallDetailObjects[i].title, "en", translateLanguageTo, "plain",function renderDivs (translatedText){
+
+                        $recallID.text(translatedText);
+                        $recallID.addClass('recallID');
+                        $recallContainer.append($recallID);
+                        });
                         
                         // $recallTitle.html(translatedText);
                     } else {
@@ -303,6 +309,7 @@ $(document).ready(function () {
                     
 
                     for (let j = 0; j < recallDetailObjects[i].panels.length; j++) {
+
                         var $panelContainer = $('<div>');
                         $panelContainer.addClass('panelContainer');
 
@@ -311,20 +318,43 @@ $(document).ready(function () {
                             $imageContainer.addClass('imageContainer');
                             for (let k = 0; k < recallDetailObjects[i].panels[j].data.length; k++) {
 
-                                var fullUrl = baseURLimages + recallDetailObjects[i].panels[j].data[k].fullUrl;
-                                console.log(fullUrl);
-                                var $image = $('<img>');
-                                $image.addClass('image');
-                                $image.attr('src', fullUrl);
-                                $imageContainer.append($image);
-                                $panelContainer.append($imageContainer);
-                                $recallContainer.append($panelContainer);
+                                
+                               
 
-                                var $imageTitle = $('<p>');
                                 if (translate) {
-                                    translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", translateLanguageTo, "plain", 'imageTitle', $imageTitle, $imageContainer, $panelContainer);
-                                    // $imageTitle.html(translatedText);
+                                   // translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", translateLanguageTo, "plain", 'imageTitle', $imageTitle, $imageContainer, $panelContainer);
+                                  
+                                   translateTextYandex(recallDetailObjects[i].panels[j].data[k].title, "en", translateLanguageTo, "plain",function renderDivs (translatedText){
+                                    var fullUrl = baseURLimages + recallDetailObjects[i].panels[j].data[k].fullUrl;
+                                    var $image = $('<img>');
+                                    $image.addClass('image');
+                                    $image.attr('src', fullUrl);
+                                    $imageContainer.append($image);
+                                    $panelContainer.append($imageContainer);
+                                    $recallContainer.append($panelContainer);
+    
+                                    var $imageTitle = $('<p>');
+                                    $imageTitle.addClass('imageTitle');
+                                    $imageTitle.text(translatedText);
+                                    $imageContainer.append($imageTitle);
+                                    });
+                                    
+                                   
+                                   
+                                   
+                                   
+                                   
+                                   // $imageTitle.html(translatedText);
                                 } else {
+                                    var fullUrl = baseURLimages + recallDetailObjects[i].panels[j].data[k].fullUrl;
+                                    var $image = $('<img>');
+                                    $image.addClass('image');
+                                    $image.attr('src', fullUrl);
+                                    $imageContainer.append($image);
+                                    $panelContainer.append($imageContainer);
+                                    $recallContainer.append($panelContainer);
+
+
                                     $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title);
                                     $imageTitle.addClass('imageTitle');
                                     $imageContainer.append($imageTitle);
@@ -333,19 +363,22 @@ $(document).ready(function () {
                                 
 
                             }
-                            //$panelContainer.append($imageContainer);
 
                         } else {
-                            // don't need to show panelName to user
-                            /*    var $panelName=$('<p>');
-                                $panelName.addClass('panelName');
-                                $panelName.html(recallDetailObjects[i].panels[j].panelName);
-                                $panelContainer.append($panelName);
-                            */
+
                             var $panelTitle = $('<p>');
                             $panelTitle.addClass('panelTitle');
                             if (translate) {
-                                translateTextYandex(recallDetailObjects[i].panels[j].title, "en", translateLanguageTo, "plain", '',  $panelTitle, $panelContainer, "");
+                                //console.log("panel title");
+                                //translateTextYandex(recallDetailObjects[i].panels[j].title, "en", translateLanguageTo, "plain", '',  $panelTitle, $panelContainer, "");
+                                translateTextYandex(recallDetailObjects[i].panels[j].title, "en", translateLanguageTo, "plain", function renderDivs (translatedText){
+                                   
+                                $panelTitle.text(translatedText);
+                                $panelContainer.append($panelTitle);
+                                });
+                                
+                                
+                                
                                 // $panelTitle.html(translatedText);
                             } else {
                                 $panelTitle.html(recallDetailObjects[i].panels[j].title);
@@ -356,8 +389,18 @@ $(document).ready(function () {
                             var $panelText = $('<p>');
                             $panelText.addClass('panelText');
                             if (translate) {
-                                translateTextYandex(recallDetailObjects[i].panels[j].text, "en", translateLanguageTo, "plain", '', $panelText, $panelContainer, $recallContainer);
-                                $panelText.html(translatedText);
+                                //console.log("panel text");
+                               // translateTextYandex(recallDetailObjects[i].panels[j].text, "en", translateLanguageTo, "plain", '', $panelText, $panelContainer, $recallContainer);
+                                
+                               translateTextYandex(recallDetailObjects[i].panels[j].text, "en", translateLanguageTo, "plain",  function renderDivs (translatedText){
+
+                                $panelText.text(translatedText);
+                                $panelContainer.append($panelText);
+                                $recallContainer.append($panelContainer);
+                                });
+                                
+                               
+                               //$panelText.html(translatedText);
                             } else {
                                 $panelText.html(recallDetailObjects[i].panels[j].text);
                                  $panelContainer.append($panelText);
@@ -548,7 +591,9 @@ function getSupportedLanguagesYandex(){
     divContainer2: A div container (an addional div container) to hold the previous div container. i.e. a conainer within a container
     // *********************************************
     */
-    function translateTextYandex(textToTranslate, languageFrom, languageTo, format, divClass, divName, divContainer, divContainer2 ) {
+    function translateTextYandex(textToTranslate, languageFrom, languageTo, format, renderDivs ) {
+        
+
 
         //The Yandex queryURL string
         var queryURL = "https://translate.yandex.net/api/v1.5/tr.json/translate";
@@ -571,15 +616,11 @@ function getSupportedLanguagesYandex(){
                 format: format,
                 text: textToTranslate.substr(0, 8000)
             }
-        }).then(function (response) {
+        }).then(function (response){
+            //console.log("in translated text then");
+            //console.log(response.text);
 
-            divName.text(response.text);
-            divName.addClass(divClass);  // Add class 'imageTitle' to $imageTitle 
-            divContainer.append(divName); // Append $imageTitle to $imageContainer
-
-            if (divContainer2 !== ""){
-                divContainer2.append(divContainer); //Append $imageContainer to $panelContainer
-            }
+            renderDivs(response.text);
 
 
         });
