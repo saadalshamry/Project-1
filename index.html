@@ -7,35 +7,32 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css"
-    />
+      />
     <link rel="stylesheet" href="./assets/css/main.css" />
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
-      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-      crossorigin="anonymous"
-    ></script>
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="crossorigin="anonymous"></script>
     <script src="./assets/js/main.js"></script>
     <link
       href="https://fonts.googleapis.com/css?family=Montserrat"
       rel="stylesheet"
-    />
+      />
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
       integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
       crossorigin="anonymous"
-    />
+      />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <title>Project</title>
   </head>
 
   <body>
     <!-- NAV-BAR SECTION -->
     <nav
-      class="blue-grey darken-4
-    "
-    >
+      class="blue-grey darken-4">
       <div class="container">
         <div class="nav-wrapper">
           <a href="#" class="brand-logo center-align">Website Name</a>
@@ -56,7 +53,7 @@
         <li>
           <img src="./assets/images/main-6.jpeg" />
           <!-- random image -->
-          <div class="caption left-align ">
+          <div class="caption left-align">
             <h3>Left Aligned Caption</h3>
             <h5>Here's our small slogan.</h5>
           </div>
@@ -84,37 +81,32 @@
       <div>
         <div
           class="btn btn-outline-danger categoryButtons
-                    btn-all"
-          value="ALL"
-        >
+          btn-all"
+          value="ALL">
           ALL
         </div>
         <div
           class="btn btn-outline-danger categoryButtons
-                    btn-cps"
-          value="CPS"
-        >
+          btn-cps"
+          value="CPS">
           Consumer Products
         </div>
         <div
           class="btn btn-outline-danger categoryButtons
-                    btn-food"
-          value="FOOD"
-        >
+          btn-food"
+          value="FOOD">
           Food
         </div>
         <div
           class="btn btn-outline-danger categoryButtons
-                    btn-health"
-          value="HEALTH"
-        >
+          btn-health"
+          value="HEALTH">
           Health
         </div>
         <div
           class="btn btn-outline-danger categoryButtons
-                    btn-vehicle"
-          value="VEHICLE"
-        >
+          btn-vehicle"
+          value="VEHICLE">
           Vehicle
         </div>
         <div id="resultsContainer"></div>
@@ -144,7 +136,7 @@
       // init sliders
       var elems = document.querySelectorAll(".slider");
       var instances = M.Slider.init(elems, {
-        height: 500
+        height: 300
       });
 
       $(document).on("click", ".recallContainer", function() {
