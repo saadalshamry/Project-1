@@ -3,7 +3,7 @@ $(document).ready(function () {
     //neils code
     var translatedText;
     var translate = false;
-    var translateLanguageTo = "";
+    var translateLanguageTo = "en";
     var categoriesSelected = [];
     var languagesSelected = [];
     var userCategorySelection;
@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     if (categoriesSelected[0] !== null && languagesSelected[0] !== null){
       
-        runProgram();
+        runProgram(translateLanguageTo);
     }
 
     
@@ -219,28 +219,32 @@ $(document).ready(function () {
         The value assigned to the option would the language code i.e. "en" for "English"
         if you wanted the language name, you could use .text().*/
         translateLanguageTo = $("#language option:selected" ).val();
-
+      
         setLocalStorageCategories(userCategorySelection);
 
         setLocalStorageLanguages(translateLanguageTo);
 
-        runProgram();
+        runProgram(translateLanguageTo);
         
     });
 
 
 
-    function runProgram(){
+    function runProgram(translateLanguageTo){
 
-
-
+       
 
         /*Only translate if the language is NOT English (any other language other than English)
         The source language (language from) will always be English for this project.
         If the language selected is NOT English, set the translate variable to true.*/
         if (translateLanguageTo !== "en") {
-            translate = true
+            translate = true;
         }
+        else{
+            translate = false;
+        }
+
+
             
         showRecalls(userCategorySelection);
 
@@ -251,6 +255,7 @@ $(document).ready(function () {
     
 
     function showRecalls(category) {
+       
         $("#resultsContainer").empty();
         var recallIDs = [];
         var recallDetailObjects = [];
@@ -276,7 +281,7 @@ $(document).ready(function () {
                     Accept: "application/json",
                     dataType: 'json'
                 }).then(function (detailData) {
-
+                    
                     recallDetailObjects[i] = detailData;
                     ////console.log("recall detail object is:");
                     ////console.log(detailData);
@@ -293,14 +298,15 @@ $(document).ready(function () {
                     if (translate) {
                        // translateTextYandex(recallDetailObjects[i].title, "en", translateLanguageTo, "plain","recallTitle", $recallTitle, $recallContainer);
                     //console.log("title");
+                   
                        translateTextYandex(recallDetailObjects[i].title, "en", translateLanguageTo, "plain",function renderDivs (translatedText){
 
-                        $recallID.text(translatedText);
-                        $recallID.addClass('recallID');
-                        $recallContainer.append($recallID);
+                        $recallTitle.html(translatedText);
+                        $recallTitle.addClass('recallTitle');
+                        $recallContainer.append($recallTitle);
                         });
                         
-                        // $recallTitle.html(translatedText);
+                        
                     } else {
                         $recallTitle.html(recallDetailObjects[i].title);
                         $recallTitle.addClass('recallTitle');
@@ -334,8 +340,8 @@ $(document).ready(function () {
                                     $recallContainer.append($panelContainer);
     
                                     var $imageTitle = $('<p>');
+                                   $imageTitle.html(translatedText);
                                     $imageTitle.addClass('imageTitle');
-                                    $imageTitle.text(translatedText);
                                     $imageContainer.append($imageTitle);
                                     });
                                     
@@ -354,7 +360,7 @@ $(document).ready(function () {
                                     $panelContainer.append($imageContainer);
                                     $recallContainer.append($panelContainer);
 
-
+                                    var $imageTitle = $('<p>');
                                     $imageTitle.html(recallDetailObjects[i].panels[j].data[k].title);
                                     $imageTitle.addClass('imageTitle');
                                     $imageContainer.append($imageTitle);
@@ -373,7 +379,7 @@ $(document).ready(function () {
                                 //translateTextYandex(recallDetailObjects[i].panels[j].title, "en", translateLanguageTo, "plain", '',  $panelTitle, $panelContainer, "");
                                 translateTextYandex(recallDetailObjects[i].panels[j].title, "en", translateLanguageTo, "plain", function renderDivs (translatedText){
                                    
-                                $panelTitle.text(translatedText);
+                                $panelTitle.html(translatedText);
                                 $panelContainer.append($panelTitle);
                                 });
                                 
@@ -394,7 +400,7 @@ $(document).ready(function () {
                                 
                                translateTextYandex(recallDetailObjects[i].panels[j].text, "en", translateLanguageTo, "plain",  function renderDivs (translatedText){
 
-                                $panelText.text(translatedText);
+                                $panelText.html(translatedText);
                                 $panelContainer.append($panelText);
                                 $recallContainer.append($panelContainer);
                                 });
@@ -404,14 +410,13 @@ $(document).ready(function () {
                             } else {
                                 $panelText.html(recallDetailObjects[i].panels[j].text);
                                  $panelContainer.append($panelText);
+                                 $recallContainer.append($panelContainer);
                             }
                             
 
                         }
 
-                        if (translate===false) {
-                             $recallContainer.append($panelContainer);
-                        }
+                        
                     }
 
                     $('#resultsContainer').append($recallContainer);
